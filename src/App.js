@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Wrapper from "./components/Wrapper";
 import Screen from "./components/Screen";
 import ButtonBox from "./components/ButtonBox";
@@ -18,13 +18,20 @@ const toLocaleString = (num) =>
 
 const removeSpaces = (num) => num.toString().replace(/\s/g, "");
 
-const App = () => {
-  let [calc, setCalc] = useState({
+function App()  {
+  const [calc, setCalc] = useState({
     sign: "",
     num: 0,
     res: 0,
   });
-  
+
+  const [sum,setSum] = useState(0);
+
+  useEffect(() =>{
+   
+  setSum(x=>x += calc.num)
+  },[calc]);
+
   const numClickHandler = (e) => {
     e.preventDefault();
     const value = e.target.innerHTML;
@@ -126,11 +133,12 @@ const App = () => {
       num: 0,
       res: 0,
     });
+    setSum(x=>x=0)
   };
   
   return (
     <Wrapper>
-      <Screen value={calc.num ? calc.num : calc.res} />
+      <Screen value={calc.num ? calc.num : calc.res} sum={sum}/>
       <ButtonBox>
         {btnValues.flat().map((btn, i) => {
           return (
