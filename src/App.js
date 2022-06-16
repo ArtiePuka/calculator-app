@@ -1,19 +1,19 @@
 import React, { useState } from "react";
-
-import Wrapper from "./components/Wrapper";
-import Screen from "./components/Screen";
-import ButtonBox from "./components/ButtonBox";
-import Button from "./components/Button";
+import Wrapper from "./Components/Wrapper";
+import Screen from "./Components/Screen";
+import ButtonBox from "./Components/ButtonBox";
+import Button from "./Components/Button";
 
 const btnValues = [
   ["C", "+-", "%", "/"],
-  [7, 8, 9, "X"],
+  [7, 8, 9, "*"],
   [4, 5, 6, "-"],
   [1, 2, 3, "+"],
   [0, ".", "="],
 ];
 
 const toLocaleString = (num) =>
+
   String(num).replace(/(?<!\..*)(\d)(?=(?:\d{3})+(?:\.|$))/g, "$1 ");
 
 const removeSpaces = (num) => num.toString().replace(/\s/g, "");
@@ -28,6 +28,7 @@ const App = () => {
   const numClickHandler = (e) => {
     e.preventDefault();
     const value = e.target.innerHTML;
+
 
     if (removeSpaces(calc.num).length < 16) {
       setCalc({
@@ -46,7 +47,6 @@ const App = () => {
   const commaClickHandler = (e) => {
     e.preventDefault();
     const value = e.target.innerHTML;
-
     setCalc({
       ...calc,
       num: !calc.num.toString().includes(".") ? calc.num + value : calc.num,
@@ -57,6 +57,7 @@ const App = () => {
     e.preventDefault();
     const value = e.target.innerHTML;
 
+
     setCalc({
       ...calc,
       sign: value,
@@ -66,6 +67,7 @@ const App = () => {
   };
 
   const equalsClickHandler = () => {
+
     if (calc.sign && calc.num) {
       const math = (a, b, sign) =>
         sign === "+"
@@ -93,7 +95,6 @@ const App = () => {
       });
     }
   };
-
   const invertClickHandler = () => {
     setCalc({
       ...calc,
@@ -102,11 +103,11 @@ const App = () => {
       sign: "",
     });
   };
-
+  
   const percentClickHandler = () => {
     let num = calc.num ? parseFloat(removeSpaces(calc.num)) : 0;
     let res = calc.res ? parseFloat(removeSpaces(calc.res)) : 0;
-
+    
     setCalc({
       ...calc,
       num: (num /= Math.pow(100, 1)),
@@ -114,7 +115,7 @@ const App = () => {
       sign: "",
     });
   };
-
+  
   const resetClickHandler = () => {
     setCalc({
       ...calc,
@@ -123,7 +124,7 @@ const App = () => {
       res: 0,
     });
   };
-
+  
   return (
     <Wrapper>
       <Screen value={calc.num ? calc.num : calc.res} />
@@ -131,12 +132,12 @@ const App = () => {
         {btnValues.flat().map((btn, i) => {
           return (
             <Button
-              key={i}
+            key={i}
               className={btn === "=" ? "equals" : ""}
               value={btn}
               onClick={
                 btn === "C"
-                  ? resetClickHandler
+                ? resetClickHandler
                   : btn === "+-"
                   ? invertClickHandler
                   : btn === "%"
@@ -148,13 +149,13 @@ const App = () => {
                   : btn === "."
                   ? commaClickHandler
                   : numClickHandler
-              }
+                }
             />
-          );
+            );
         })}
       </ButtonBox>
     </Wrapper>
   );
-};
-
+  
+}
 export default App;
