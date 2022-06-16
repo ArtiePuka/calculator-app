@@ -1,11 +1,11 @@
-import "./Screen.css";
+import "./Screen.css"
 
 export default function Screen({value}) {
 
-    
-    return(
+
+    return (
         <form className="screen">
-            <label>{value}</label>
+            <label >{value}</label>
         </form>
-    )
+    );
 }
