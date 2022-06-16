@@ -1,35 +1,37 @@
-// import "./App.css";
+
 import React, { useState } from "react";
-import Wrapper from "./Components/Wrapper";
-import Screen from "./Components/Screen";
-import ButtonBox from "./Components/ButtonBox";
-import Button from "./Components/Button";
+
+import Wrapper from "./components/Wrapper";
+import Screen from "./components/Screen";
+import ButtonBox from "./components/ButtonBox";
+import Button from "./components/Button";
 
 const btnValues = [
   ["C", "+-", "%", "/"],
-  [7, 8, 9, "*"],
+  [7, 8, 9, "X"],
   [4, 5, 6, "-"],
   [1, 2, 3, "+"],
   [0, ".", "="],
 ];
 
 const toLocaleString = (num) =>
-String(num).replace(/(?<!\..*)(\d)(?=(?:\d{3})+(?:\.|$))/g, "$1 ");
+
+  String(num).replace(/(?<!\..*)(\d)(?=(?:\d{3})+(?:\.|$))/g, "$1 ");
+
 const removeSpaces = (num) => num.toString().replace(/\s/g, "");
 
-export default function App() {
-
-
-
+const App = () => {
   let [calc, setCalc] = useState({
     sign: "",
     num: 0,
     res: 0,
   });
 
-  function numClickHandler(x) {
-    x.preventDefault();
-    const value = x.target.innerHTML;
+
+  const numClickHandler = (e) => {
+    e.preventDefault();
+    const value = e.target.innerHTML;
+
 
     if (removeSpaces(calc.num).length < 16) {
       setCalc({
@@ -40,19 +42,20 @@ export default function App() {
             : removeSpaces(calc.num) % 1 === 0
             ? toLocaleString(Number(removeSpaces(calc.num + value)))
             : toLocaleString(calc.num + value),
-        res: calc.sign ? calc.res : 0,
+        res: !calc.sign ? 0 : calc.res,
       });
     }
-  }
+  };
 
-  function commaClickHandler(x) {
-    x.preventDefault();
-    const value = x.target.innerHTML;
+  const commaClickHandler = (e) => {
+    e.preventDefault();
+    const value = e.target.innerHTML;
 
     setCalc({
       ...calc,
       num: !calc.num.toString().includes(".") ? calc.num + value : calc.num,
     });
+
   }
 
   function signClickHandler(x) {
@@ -65,9 +68,10 @@ export default function App() {
       res: !calc.res && calc.num ? calc.num : calc.res,
       num: 0,
     });
-  }
+  };
 
-  function equalsClickHandler() {
+  const equalsClickHandler = () => {
+
     if (calc.sign && calc.num) {
       const math = (a, b, sign) =>
         sign === "+"
@@ -83,16 +87,20 @@ export default function App() {
         res:
           calc.num === "0" && calc.sign === "/"
             ? "Can't divide with 0"
-            : toLocaleString(math(
-              Number(removeSpaces(calc.res)),
-              Number(removeSpaces(calc.num)),
-               calc.sign)
-            ),
+            : toLocaleString(
+                math(
+                  Number(removeSpaces(calc.res)),
+                  Number(removeSpaces(calc.num)),
+                  calc.sign
+                )
+              ),
+
         sign: "",
         num: 0,
       });
     }
-  }
+  };
+
   const invertClickHandler = () => {
     setCalc({
       ...calc,
@@ -114,14 +122,15 @@ export default function App() {
     });
   };
 
-  function resetClickHandler() {
+  const resetClickHandler = () => {
+
     setCalc({
       ...calc,
       sign: "",
       num: 0,
       res: 0,
     });
-  }
+  };
 
   return (
     <Wrapper>
@@ -154,4 +163,6 @@ export default function App() {
       </ButtonBox>
     </Wrapper>
   );
-}
+};
+
+export default App;
