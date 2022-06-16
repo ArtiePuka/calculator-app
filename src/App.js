@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 
 import Wrapper from "./components/Wrapper";
@@ -14,6 +15,7 @@ const btnValues = [
 ];
 
 const toLocaleString = (num) =>
+
   String(num).replace(/(?<!\..*)(\d)(?=(?:\d{3})+(?:\.|$))/g, "$1 ");
 
 const removeSpaces = (num) => num.toString().replace(/\s/g, "");
@@ -25,9 +27,11 @@ const App = () => {
     res: 0,
   });
 
+
   const numClickHandler = (e) => {
     e.preventDefault();
     const value = e.target.innerHTML;
+
 
     if (removeSpaces(calc.num).length < 16) {
       setCalc({
@@ -51,11 +55,12 @@ const App = () => {
       ...calc,
       num: !calc.num.toString().includes(".") ? calc.num + value : calc.num,
     });
-  };
 
-  const signClickHandler = (e) => {
-    e.preventDefault();
-    const value = e.target.innerHTML;
+  }
+
+  function signClickHandler(x) {
+    x.preventDefault();
+    const value = x.target.innerHTML;
 
     setCalc({
       ...calc,
@@ -66,6 +71,7 @@ const App = () => {
   };
 
   const equalsClickHandler = () => {
+
     if (calc.sign && calc.num) {
       const math = (a, b, sign) =>
         sign === "+"
@@ -88,6 +94,7 @@ const App = () => {
                   calc.sign
                 )
               ),
+
         sign: "",
         num: 0,
       });
@@ -116,6 +123,7 @@ const App = () => {
   };
 
   const resetClickHandler = () => {
+
     setCalc({
       ...calc,
       sign: "",

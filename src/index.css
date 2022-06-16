@@ -11,6 +11,6 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #fbb034;
-  background-image: linear-gradient(315deg, #fb4134 0%, #aae945 74%);
+  background-color: #aba3935e;
+  background-image: linear-gradient(315deg, #6d4f1e 0%, #1874c0 74%);
 }
