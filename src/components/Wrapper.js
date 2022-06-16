@@ -1,7 +1,8 @@
 import "./Wrapper.css";
 
-export function Wrapper(children)  {
-  return <div className="wrapper">{children}</div>;
+export function Wrapper(props)  {
+  return <div className="wrapper">{props.children}</div>;
+
 };
 
 export default Wrapper;
