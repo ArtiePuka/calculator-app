@@ -6,7 +6,7 @@ import Button from "./components/Button.js";
 import Screen from "./components/Screen.js";
 
 
-//testar 
+//testar lite igenom att klicka på knapparna och se om det fungerar
 
 const btnValues = [
   ["C", "+-", "%", "/"],
