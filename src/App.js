@@ -6,38 +6,42 @@ import Button from "./components/Button";
 
 const btnValues = [
   ["C", "+-", "%", "/"],
-  [7, 8, 9, "X"],
+  [7, 8, 9, "*"],
   [4, 5, 6, "-"],
   [1, 2, 3, "+"],
   [0, ".", "="],
 ];
 
 const toLocaleString = (num) =>
-
   String(num).replace(/(?<!\..*)(\d)(?=(?:\d{3})+(?:\.|$))/g, "$1 ");
 
 const removeSpaces = (num) => num.toString().replace(/\s/g, "");
 
-function App()  {
+function App() {
   const [calc, setCalc] = useState({
     sign: "",
     num: 0,
     res: 0,
   });
 
-  const [sum,setSum] = useState(0);
+  const [sum, setSum] = useState("");
 
-  useEffect(() =>{
-   
-  setSum(x=>x += calc.num)
-  },[calc]);
+  useEffect(() => {
+    if (!calc.num == 0) setSum((x) => x + calc.num[calc.num.length - 1]);
+  }, [calc]);
+
+  useEffect(() => {
+    const signValue = calc.sign;
+    setSum((x) => x + signValue);
+    //setCalc({...calc, sign: ""});
+  }, [calc.sign]);
 
   const numClickHandler = (e) => {
     e.preventDefault();
+    console.log(e);
     const value = e.target.innerHTML;
 
-
-    if (removeSpaces(calc.num).length < 16) {
+    if (removeSpaces(calc.num).length < 17) {
       setCalc({
         ...calc,
         num:
@@ -58,13 +62,11 @@ function App()  {
       ...calc,
       num: !calc.num.toString().includes(".") ? calc.num + value : calc.num,
     });
-
   };
 
   const signClickHandler = (e) => {
     e.preventDefault();
     const value = e.target.innerHTML;
-
     setCalc({
       ...calc,
       sign: value,
@@ -74,14 +76,13 @@ function App()  {
   };
 
   const equalsClickHandler = () => {
-
     if (calc.sign && calc.num) {
       const math = (a, b, sign) =>
         sign === "+"
           ? a + b
           : sign === "-"
           ? a - b
-          : sign === "X"
+          : sign === "*"
           ? a * b
           : a / b;
 
@@ -111,11 +112,11 @@ function App()  {
       sign: "",
     });
   };
-  
+
   const percentClickHandler = () => {
     let num = calc.num ? parseFloat(removeSpaces(calc.num)) : 0;
     let res = calc.res ? parseFloat(removeSpaces(calc.res)) : 0;
-    
+
     setCalc({
       ...calc,
       num: (num /= Math.pow(100, 1)),
@@ -124,49 +125,47 @@ function App()  {
     });
   };
 
-  
   const resetClickHandler = () => {
-
     setCalc({
       ...calc,
       sign: "",
       num: 0,
       res: 0,
     });
-    setSum(x=>x=0)
+    setSum("");
   };
-  
+
   return (
     <Wrapper>
-      <Screen value={calc.num ? calc.num : calc.res} sum={sum}/>
+      <Screen value={calc.num ? calc.num : calc.res} sum={sum} />
       <ButtonBox>
         {btnValues.flat().map((btn, i) => {
           return (
             <Button
-            key={i}
+              key={i}
               className={btn === "=" ? "equals" : ""}
               value={btn}
               onClick={
                 btn === "C"
-                ? resetClickHandler
+                  ? resetClickHandler
                   : btn === "+-"
                   ? invertClickHandler
                   : btn === "%"
                   ? percentClickHandler
                   : btn === "="
                   ? equalsClickHandler
-                  : btn === "/" || btn === "X" || btn === "-" || btn === "+"
+                  : btn === "/" || btn === "*" || btn === "-" || btn === "+"
                   ? signClickHandler
                   : btn === "."
                   ? commaClickHandler
                   : numClickHandler
-                }
+              }
             />
-            );
+          );
         })}
       </ButtonBox>
     </Wrapper>
-  ); 
+  );
 }
 
 export default App;
